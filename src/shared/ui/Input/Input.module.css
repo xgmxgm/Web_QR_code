@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.input {
+	@apply border-[1px] py-2 px-3 rounded-lg;
+}
