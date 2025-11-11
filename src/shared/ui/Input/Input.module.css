@@ -1,5 +1,9 @@
 @reference "tailwindcss";
 
+.label {
+	@apply text-xl pb-1
+}
+
 .input {
-	@apply border-[1px] py-2 px-3 rounded-lg;
+	@apply border-[1px] py-3 px-7 rounded-lg;
 }

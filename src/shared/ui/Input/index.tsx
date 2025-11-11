@@ -1,6 +1,22 @@
 import type { FC, InputHTMLAttributes } from 'react'
 import styles from './Input.module.css'
+import classNames from 'classnames'
 
-export const Input: FC<InputHTMLAttributes<HTMLInputElement>> = props => {
-	return <input className={styles['input']} {...props} />
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+	label?: string
+}
+
+export const Input: FC<IProps> = ({
+	className,
+	label,
+	...props
+}) => {
+	return (
+		<div>
+			<label>
+			<p className={styles.label}>{label}</p>
+			<input className={classNames(styles.input, className)} {...props} />
+			</label>
+		</div>
+	)
 }
