@@ -1,29 +1,45 @@
-import { useRef, useState } from 'react'
+import jsPDF from 'jspdf'
+import { useState } from 'react'
 import { Input } from '@/shared/ui/Input'
-import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react'
+import { Range } from '@/shared/ui/Range'
+import { QRCodeCanvas } from 'qrcode.react'
+import { Button } from '@/shared/ui/Button'
 
 export default function Home() {
 	const [link, setLink] = useState<string>(
 		'https://portfolio-sigma-two-81.vercel.app/'
 	)
-	const qrRef = useRef<HTMLDivElement>(null)
+	const [QRSize, setQRSize] = useState<number>(200)
 
-	const downloadQR = () => {
-		console.log('click')
-		const canvas = qrRef.current?.querySelector('canvas')
-
-		console.log('canvas: ', canvas);
-
+	const downloadQRPNG = () => {
+		const canvas = document.querySelector('canvas')
 		if (!canvas) return
 
-		const url = canvas.toDataURL('image/png') // создаём base64
-
-		console.log("url: ", url)
-
+		const url = canvas.toDataURL('image/png')
 		const a = document.createElement('a')
 		a.href = url
-		a.download = 'qr-code.png' // имя файла
+		a.download = 'qr-code.png'
 		a.click()
+	}
+
+	const downloadQRPDF = () => {
+		const canvas = document.querySelector('canvas')
+		if (!canvas) return
+
+		const dataUrl = canvas.toDataURL('image/png')
+
+		const pdf = new jsPDF({
+			orientation: 'portrait',
+			unit: 'pt',
+			format: 'a4',
+		})
+
+		const pageWidth = pdf.internal.pageSize.getWidth()
+		const x = (pageWidth - QRSize) / 2
+		const y = 200
+
+		pdf.addImage(dataUrl, 'PNG', x, y, QRSize, QRSize)
+		pdf.save('qr-code.pdf')
 	}
 
 	function isValidUrl(value: string) {
@@ -49,15 +65,18 @@ export default function Home() {
 					className='text-2xl w-full'
 				/>
 			</div>
+			<Range
+				label={`QR code size: ${QRSize}`}
+				min='50'
+				max='400'
+				onChange={e => setQRSize(+e.target.value)}
+				value={QRSize}
+			/>
 			{isValidUrl(link) && (
-				<QRCodeCanvas className='my-10' value={link} size={200} />
+				<QRCodeCanvas className='my-10' value={link} size={QRSize} />
 			)}
-			<button
-				onClick={downloadQR}
-				className='bg-blue-600 text-white px-4 py-2 rounded'
-			>
-				Скачать QR
-			</button>
+			<Button onClick={downloadQRPNG}>Скачать QR png</Button>
+			<Button onClick={downloadQRPDF}>Скачать QR pdf</Button>
 		</div>
 	)
 }

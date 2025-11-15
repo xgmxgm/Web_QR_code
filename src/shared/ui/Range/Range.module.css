@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+.label {
+	@apply text-xl pb-1
+}
+
+.range {
+	@apply flex gap-3
+}
