@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.qrcode_block {
+	@apply p-5 bg-white rounded-3xl my-5;
+}

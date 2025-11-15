@@ -1,0 +1,13 @@
+@reference "tailwindcss";
+
+.field {
+	/* @apply */
+}
+
+.field_text {
+	@apply mb-1
+}
+
+.filed_input {
+	@apply bg-gray-100 rounded outline-none text-black px-2 py-1
+}

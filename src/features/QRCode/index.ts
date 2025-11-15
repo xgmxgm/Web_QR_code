@@ -1,0 +1,1 @@
+export { QRCode } from './ui/QRCode'
