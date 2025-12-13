@@ -1,6 +1,5 @@
 import jsPDF from 'jspdf'
 import { useState } from 'react'
-import { Field } from '@/shared/ui/Field'
 import { Input } from '@/shared/ui/Input'
 import { Range } from '@/shared/ui/Range'
 import { QRCode } from '@/features/QRCode'
@@ -45,10 +44,10 @@ export default function Home() {
 
 	return (
 		<div className='w-full flex flex-col items-center pt-10'>
-			<h2 className='text-5xl font-semibold mb-3'>
+			<h2 className='text-3xl sm:text-4xl lg:text-5xl font-semibold mb-3'>
 				Enter link for get QR code.
 			</h2>
-			<div className='w-4/12 mb-10'>
+			<div className='md:w-4/12 mb-10'>
 				<Input
 					type='text'
 					value={link}
@@ -57,17 +56,16 @@ export default function Home() {
 					className='text-2xl w-full'
 				/>
 			</div>
-			<div className='flex gap-44'>
-				<div className='flex flex-col gap-4'>
+			<div className='flex flex-col gap-5 lg:flex-row lg:gap-44'>
+				<div className='flex flex-col gap-4 items-center'>
 					<Range
 						label={`QR code size: ${QRSize}`}
 						min='50'
-						max='250'
+						max='200'
 						onChange={e => setQRSize(+e.target.value)}
 						value={QRSize}
 						className='w-52'
 					/>
-					<Field label='Test label:' />
 				</div>
 				<div className='flex flex-col items-center gap-5'>
 					<QRCode link={link} size={QRSize} />
