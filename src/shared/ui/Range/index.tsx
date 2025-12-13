@@ -12,11 +12,7 @@ export const Range: FC<IProps> = ({ label, className, ...props }) => {
 			<p className={styles.label}>{label}</p>
 			<div className={styles.range}>
 				<p>{props.min}</p>
-				<input
-					type='range'
-					className={classNames(className)}
-					{...props}
-				/>
+				<input type='range' className={classNames(styles.slider, className)} {...props} />
 				<p>{props.max}</p>
 			</div>
 		</label>

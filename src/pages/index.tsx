@@ -1,10 +1,10 @@
 import jsPDF from 'jspdf'
 import { useState } from 'react'
+import { Field } from '@/shared/ui/Field'
 import { Input } from '@/shared/ui/Input'
 import { Range } from '@/shared/ui/Range'
 import { QRCode } from '@/features/QRCode'
 import { Button } from '@/shared/ui/Button'
-import { Field } from '@/shared/ui/Field'
 
 export default function Home() {
 	const [link, setLink] = useState<string>(
@@ -44,11 +44,11 @@ export default function Home() {
 	}
 
 	return (
-		<div className='w-full flex flex-col items-center pt-20'>
+		<div className='w-full flex flex-col items-center pt-10'>
 			<h2 className='text-5xl font-semibold mb-3'>
 				Enter link for get QR code.
 			</h2>
-			<div className='w-4/12'>
+			<div className='w-4/12 mb-10'>
 				<Input
 					type='text'
 					value={link}
@@ -57,18 +57,26 @@ export default function Home() {
 					className='text-2xl w-full'
 				/>
 			</div>
-			<Field label='Test label:' />
-			<Range
-				label={`QR code size: ${QRSize}`}
-				min='50'
-				max='400'
-				onChange={e => setQRSize(+e.target.value)}
-				value={QRSize}
-				className='w-96'
-			/>
-			<QRCode link={link} size={QRSize} />
-			<Button onClick={downloadQRPNG}>Скачать QR png</Button>
-			<Button onClick={downloadQRPDF}>Скачать QR pdf</Button>
+			<div className='flex gap-44'>
+				<div className='flex flex-col gap-4'>
+					<Range
+						label={`QR code size: ${QRSize}`}
+						min='50'
+						max='250'
+						onChange={e => setQRSize(+e.target.value)}
+						value={QRSize}
+						className='w-52'
+					/>
+					<Field label='Test label:' />
+				</div>
+				<div className='flex flex-col items-center gap-5'>
+					<QRCode link={link} size={QRSize} />
+					<div className='flex gap-2'>
+						<Button onClick={downloadQRPNG}>Download QR png</Button>
+						<Button onClick={downloadQRPDF}>Download QR pdf</Button>
+					</div>
+				</div>
+			</div>
 		</div>
 	)
 }

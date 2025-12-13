@@ -1,6 +1,6 @@
-import type { FC, InputHTMLAttributes } from 'react'
-import styles from './Input.module.css'
 import classNames from 'classnames'
+import styles from './Input.module.css'
+import type { FC, InputHTMLAttributes } from 'react'
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string

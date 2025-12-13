@@ -1,9 +1,49 @@
 @reference "tailwindcss";
 
+.slider {
+	-webkit-appearance: none;
+	height: 4px;
+	background: #ddd;
+	border-radius: 4px;
+	margin-top: 10px;
+}
+
+.slider::-webkit-slider-runnable-track {
+	height: 4px;
+	background: linear-gradient(90deg, #4f46e5, #6366f1);
+	border-radius: 4px;
+}
+
+.slider::-moz-range-track {
+	height: 4px;
+	background: linear-gradient(90deg, #4f46e5, #6366f1);
+	border-radius: 4px;
+}
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 16px;
+	height: 16px;
+	background: white;
+	border: 2px solid #4f46e5;
+	border-radius: 50%;
+	cursor: pointer;
+	margin-top: -6px;
+}
+
+.slider::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	background: white;
+	border: 2px solid #4f46e5;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
 .label {
-	@apply text-xl pb-1
+	@apply pb-1;
 }
 
 .range {
-	@apply flex gap-3
+	@apply flex gap-3;
 }

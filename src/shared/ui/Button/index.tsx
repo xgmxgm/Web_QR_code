@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import styles from './Button.module.css'
-import { forwardRef, type ButtonHTMLAttributes, type FC } from 'react'
+import { forwardRef, type ButtonHTMLAttributes } from 'react'
 
 export const Button = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
 	({ className, ...props }, ref) => {
