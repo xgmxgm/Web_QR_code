@@ -6,9 +6,7 @@ import { QRCode } from '@/features/QRCode'
 import { Button } from '@/shared/ui/Button'
 
 export default function Home() {
-	const [link, setLink] = useState<string>(
-		'https://portfolio-sigma-two-81.vercel.app/'
-	)
+	const [link, setLink] = useState<string>('')
 	const [QRSize, setQRSize] = useState<number>(200)
 
 	const downloadQRPNG = () => {
