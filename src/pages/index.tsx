@@ -9,6 +9,15 @@ export default function Home() {
 	const [link, setLink] = useState<string>('')
 	const [QRSize, setQRSize] = useState<number>(200)
 
+	function isValidUrl(value: string) {
+		try {
+			new URL(value)
+			return true
+		} catch {
+			return false
+		}
+	}
+
 	const downloadQRPNG = () => {
 		const canvas = document.querySelector('canvas')
 		if (!canvas) return
@@ -54,25 +63,27 @@ export default function Home() {
 					className='text-2xl w-full'
 				/>
 			</div>
-			<div className='flex flex-col gap-5 lg:flex-row lg:gap-44'>
-				<div className='flex flex-col gap-4 items-center'>
-					<Range
-						label={`QR code size: ${QRSize}`}
-						min='50'
-						max='200'
-						onChange={e => setQRSize(+e.target.value)}
-						value={QRSize}
-						className='w-52'
-					/>
-				</div>
-				<div className='flex flex-col items-center gap-5'>
-					<QRCode link={link} size={QRSize} />
-					<div className='flex gap-2'>
-						<Button onClick={downloadQRPNG}>Download QR png</Button>
-						<Button onClick={downloadQRPDF}>Download QR pdf</Button>
+			{isValidUrl(link) && (
+				<div className='flex flex-col gap-5 lg:flex-row lg:gap-44'>
+					<div className='flex flex-col gap-4 items-center'>
+						<Range
+							label={`QR code size: ${QRSize}`}
+							min='50'
+							max='200'
+							onChange={e => setQRSize(+e.target.value)}
+							value={QRSize}
+							className='w-52'
+						/>
+					</div>
+					<div className='flex flex-col items-center gap-5'>
+						<QRCode link={link} size={QRSize} />
+						<div className='flex gap-2'>
+							<Button onClick={downloadQRPNG}>Download QR png</Button>
+							<Button onClick={downloadQRPDF}>Download QR pdf</Button>
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	)
 }
