@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Input } from '@/shared/ui/Input'
 import { Range } from '@/shared/ui/Range'
 import { QRCode } from '@/features/QRCode'
@@ -49,20 +50,49 @@ export default function Home() {
 		pdf.save('qr-code.pdf')
 	}
 
+	const variants = {
+		hidden: { opacity: 0, scale: 0, translateY: -100 },
+		visible: (custom: number) => ({
+			opacity: 1,
+			scale: 1,
+			translateY: 0,
+			transition: { delay: custom * 0.8 }
+		}),
+		hover: {
+			scale: 1.05,
+		},
+		tap: {
+			scale: 0.95,
+		},
+	}
+
 	return (
 		<div className='w-full flex flex-col items-center pt-10'>
-			<h2 className='text-3xl sm:text-4xl lg:text-5xl font-semibold mb-3'>
+			<motion.h2
+				variants={variants}
+				animate={'visible'}
+				initial={'hidden'}
+				whileHover={'hover'}
+				className='text-3xl sm:text-4xl lg:text-5xl font-semibold mb-3'
+			>
 				Enter link for get QR code.
-			</h2>
-			<div className='md:w-4/12 mb-10'>
+			</motion.h2>
+			<motion.div
+				variants={variants}
+				animate={'visible'}
+				initial={'hidden'}
+				whileTap={'tap'}
+				className='md:w-4/12 mb-10'
+				custom={1}
+			>
 				<Input
 					type='text'
 					value={link}
 					onChange={e => setLink(e.target.value)}
-					placeholder='Enter link to QR code'
+					placeholder='Enter link for QR code...'
 					className='text-2xl w-full'
 				/>
-			</div>
+			</motion.div>
 			{isValidUrl(link) && (
 				<div className='flex flex-col gap-5 lg:flex-row lg:gap-44'>
 					<div className='flex flex-col gap-4 items-center'>
