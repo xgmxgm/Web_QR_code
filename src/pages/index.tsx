@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf'
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Input } from '@/shared/ui/Input'
 import { Range } from '@/shared/ui/Range'
 import { QRCode } from '@/features/QRCode'
@@ -51,19 +51,16 @@ export default function Home() {
 	}
 
 	const variants = {
-		hidden: { opacity: 0, scale: 0, translateY: -100 },
+		hidden_top: { opacity: 0, scale: 0, translateY: -100 },
+		hidden_left: { opacity: 0, scale: 0, translateX: -100 },
+		hidden_right: { opacity: 0, scale: 0, translateX: 100 },
 		visible: (custom: number) => ({
 			opacity: 1,
 			scale: 1,
 			translateY: 0,
-			transition: { delay: custom * 0.8 }
+			translateX: 0,
+			transition: { delay: custom * 0.5 },
 		}),
-		hover: {
-			scale: 1.05,
-		},
-		tap: {
-			scale: 0.95,
-		},
 	}
 
 	return (
@@ -71,8 +68,7 @@ export default function Home() {
 			<motion.h2
 				variants={variants}
 				animate={'visible'}
-				initial={'hidden'}
-				whileHover={'hover'}
+				initial={'hidden_top'}
 				className='text-3xl sm:text-4xl lg:text-5xl font-semibold mb-3'
 			>
 				Enter link for get QR code.
@@ -80,8 +76,7 @@ export default function Home() {
 			<motion.div
 				variants={variants}
 				animate={'visible'}
-				initial={'hidden'}
-				whileTap={'tap'}
+				initial={'hidden_top'}
 				className='md:w-4/12 mb-10'
 				custom={1}
 			>
@@ -93,27 +88,41 @@ export default function Home() {
 					className='text-2xl w-full'
 				/>
 			</motion.div>
-			{isValidUrl(link) && (
-				<div className='flex flex-col gap-5 lg:flex-row lg:gap-44'>
-					<div className='flex flex-col gap-4 items-center'>
-						<Range
-							label={`QR code size: ${QRSize}`}
-							min='50'
-							max='200'
-							onChange={e => setQRSize(+e.target.value)}
-							value={QRSize}
-							className='w-52'
-						/>
+			<AnimatePresence>
+				{isValidUrl(link) && (
+					<div className='flex flex-col gap-5 lg:flex-row lg:gap-44'>
+						<motion.div
+							variants={variants}
+							animate={'visible'}
+							initial={'hidden_left'}
+							exit={'hidden_left'}
+							className='flex flex-col gap-4 items-center'
+						>
+							<Range
+								label={`QR code size: ${QRSize}`}
+								min='50'
+								max='200'
+								onChange={e => setQRSize(+e.target.value)}
+								value={QRSize}
+								className='w-52'
+							/>
+						</motion.div>
+						<motion.div
+							variants={variants}
+							animate={'visible'}
+							initial={'hidden_right'}
+							exit={'hidden_right'}
+							className='flex flex-col items-center gap-5'
+						>
+							<QRCode link={link} size={QRSize} />
+							<div className='flex gap-2'>
+								<Button onClick={downloadQRPNG}>Download QR png</Button>
+								<Button onClick={downloadQRPDF}>Download QR pdf</Button>
+							</div>
+						</motion.div>
 					</div>
-					<div className='flex flex-col items-center gap-5'>
-						<QRCode link={link} size={QRSize} />
-						<div className='flex gap-2'>
-							<Button onClick={downloadQRPNG}>Download QR png</Button>
-							<Button onClick={downloadQRPDF}>Download QR pdf</Button>
-						</div>
-					</div>
-				</div>
-			)}
+				)}
+			</AnimatePresence>
 		</div>
 	)
 }
